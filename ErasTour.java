@@ -2,76 +2,111 @@
 //Universidad del Valle de Guatemala
 //Eras Tour - Ejercicio 1 POO
 //Fecha 11/08/2023
+//3 localidades: localidad 1= $100, localidad 2= $500, localidad 10 = $1000
+//para cada localidad un maximo de 20 boletos
 
+import java.util.Random;
 import java.util.Scanner;
 
-public class ErasTour{
-    public static void main (String[] args){
-        System.out.println("----------------------------------------------------");
-        System.out.println("Bienvenido a Eras Tour");
-        System.out.println("Estas son las opciones que tenemos para ti");
-        System.out.println("1. Comprar boletos");
-        System.out.println("2. Nueva solicitud de boletos");
-        System.out.println("3. Consultar disponibilidad total");
-        System.out.println("4. Consultar disponibilidad por localidad");
-        System.out.println("5 reporte de ventas");
-        System.out.println("6. Salir");
-        System.out.println("----------------------------------------------------");
+public class ErasTour {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int opcion =1;
+        Comprador compradorActual = null;
 
-        while (opcion != 6){
-            System.out.println("Ingrese la opcion que desea realizar");
-            opcion = sc.nextInt();
-            switch (opcion){
+        Localidad localidadAlejada = new Localidad(1);
+        Localidad localidadMejorVista = new Localidad(5);
+        Localidad localidadMejorLocalidad = new Localidad(10);
+
+        localidadAlejada.setPrecio(100);
+        localidadMejorVista.setPrecio(500);
+        localidadMejorLocalidad.setPrecio(1000);
+
+        while (true) {
+            System.out.println("Bienvenido a Eras Tour");
+            System.out.println("1. Nuevo comprador");
+            System.out.println("2. Nueva solicitud de boletos");
+            System.out.println("3. Consultar disponibilidad total");
+            System.out.println("4. Consultar disponibilidad individual");
+            System.out.println("5. Reporte de caja");
+            System.out.println("6. Salir");
+            System.out.print("Ingrese la opción: ");
+            int opcion = sc.nextInt();
+
+            switch (opcion) {
                 case 1:
-                    System.out.println("Ingrese su nombre");
+                    System.out.println("Ingrese su nombre:");
                     String nombre = sc.next();
-                    System.out.println("Ingrese su correo electronico");
+                    System.out.println("Ingrese su correo electrónico:");
                     String email = sc.next();
-                    System.out.println("Ingrese la cantidad de boletos que desea comprar");
-                    int lugarDisponible = sc.nextInt();
-                    System.out.println("Ingrese el precio que desea pagar por cada boleto");
-                    int precio = sc.nextInt();
-                    comprador c = new comprador(nombre, email, lugarDisponible, precio);
-                    System.out.println("Su compra ha sido realizada con exito");
-                    System.out.println("----------------------------------------------------");
+                    System.out.println("Ingrese la cantidad de boletos que desea comprar:");
+                    int cantidadBoletos = sc.nextInt();
+                    System.out.println("Ingrese su presupuesto máximo:");
+                    int presupuesto = sc.nextInt();
+                    compradorActual = new Comprador(nombre, email, cantidadBoletos, presupuesto);
                     break;
-                case 2:
-                    System.out.println("Ingrese el numero de boletos que desea solicitar");
-                    int TicketNo = sc.nextInt();
-                    System.out.println("Ingrese el numero de boletos que desea solicitar");
-                    int a = sc.nextInt();
-                    System.out.println("Ingrese el numero de boletos que desea solicitar");
-                    int b = sc.nextInt();
-                    Localidad l = new Localidad(TicketNo, a, b);
-                    System.out.println("Su solicitud ha sido realizada con exito");
-                    System.out.println("----------------------------------------------------");
+
+                    case 2:
+                    if (compradorActual == null) {
+                        System.out.println("Debe crear un nuevo comprador antes de solicitar boletos.");
+                    } else {
+                        int totalBoletos = 60; // Total de boletos a vender
+                        int boletosVendidos = 0;
+                
+                        while (boletosVendidos < totalBoletos) {
+                            int ticket = new Random().nextInt(15000) + 1;
+                            int a = new Random().nextInt(15000) + 1;
+                            int b = new Random().nextInt(15000) + 1;
+                
+                            if (ticket >= Math.min(a, b) && ticket <= Math.max(a, b)) {
+                                Localidad localidadSeleccionada = null;
+                                int numeroLocalidad = new Random().nextInt(3);
+                                if (numeroLocalidad == 0) {
+                                    localidadSeleccionada = localidadAlejada;
+                                } else if (numeroLocalidad == 1) {
+                                    localidadSeleccionada = localidadMejorVista;
+                                } else if (numeroLocalidad == 2) {
+                                    localidadSeleccionada = localidadMejorLocalidad;
+                                }
+                
+                                if (localidadSeleccionada.getLugarDisponible() > 0) {
+                                    int cantidadBoletosDeseados = 1;
+                
+                                    if (cantidadBoletosDeseados <= localidadSeleccionada.getLugarDisponible()) {
+                                        int costoTotal = cantidadBoletosDeseados * localidadSeleccionada.getPrecio();
+                                        compradorActual.comprarBoletos(cantidadBoletosDeseados, costoTotal);
+                                        localidadSeleccionada.venderBoletos(cantidadBoletosDeseados);
+                
+                                        System.out.println("Boletos vendidos con éxito.");
+                                        System.out.println("Cantidad de boletos vendidos: " + cantidadBoletosDeseados);
+                                        System.out.println("Total a pagar: $" + costoTotal);
+                
+                                        boletosVendidos++;
+                                    } else {
+                                        System.out.println("No hay suficientes boletos disponibles en la localidad seleccionada.");
+                                    }
+                                } else {
+                                    System.out.println("La localidad seleccionada no tiene espacios disponibles.");
+                                }
+                            } else {
+                                System.out.println("El ticket no es apto para comprar boletos.");
+                            }
+                        }
+                
+                        System.out.println("Se han vendido " + boletosVendidos + " boletos en total.");
+                    }
                     break;
-                case 3:
-                    System.out.println("La disponibilidad total es de: ");
-                    System.out.println("----------------------------------------------------");
-                    break;
-                case 4:
-                    System.out.println("Ingrese la localidad que desea consultar");
-                    String localidad = sc.next();
-                    System.out.println("La disponibilidad de la localidad " + localidad + " es de: ");
-                    System.out.println("----------------------------------------------------");
-                    break;
-                case 5:
-                    System.out.println("El reporte de ventas es el siguiente: ");
-                    System.out.println("----------------------------------------------------");
-                    break;
+                
+                // Resto de las opciones del menú
+
                 case 6:
-                    System.out.println("Gracias por visitar Eras Tour");
-                    System.out.println("----------------------------------------------------");
+                    System.out.println("Gracias por usar Eras Tour. ¡Hasta pronto!");
+                    System.exit(0);
                     break;
+
                 default:
-                    System.out.println("Ingrese una opcion valida");
-                    System.out.println("----------------------------------------------------");
-                    break;
+                    System.out.println("Opción inválida. Por favor, ingrese una opción válida.");
             }
         }
-
     }
 }
+

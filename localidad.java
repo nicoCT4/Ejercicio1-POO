@@ -1,32 +1,53 @@
-//importamos la librerira random
 import java.util.Random;
-//TicketNo, a y b seran numeros aleatorios de 1 a 15000
-//Se agregran los atributos de la clase Localidad
-class Localidad{
-    private int TicketNo;
+
+class Localidad {
+    private int ticketNo;
     private int a;
     private int b;
+    private int lugarDisponible; // Agregamos lugarDisponible y precio
+    private int precio;
 
-//Se crea el constructor de la clase Localidad
-    public Localidad(int TicketNo, int a, int b){
-        this.TicketNo = TicketNo;
-        this.a = a;
-        this.b = b;
+    public Localidad(int TicketNo) {
+        this.ticketNo = TicketNo;
+        this.a = numAl();
+        this.b = numAl();
     }
-//Se crean los getters 
-    public int getTicketNo(){
-        return TicketNo;
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    } // Método para establecer el precio
+
+    public int getTicketNo() {
+        return ticketNo;
     }
-    public int geta(){
+
+    public int getA() {
         return a;
     }
-    public int getb(){
+
+    public int getB() {
         return b;
     }
-//Se crea el metodo para generar numeros aleatorios
-    public int NumAl(){
+
+    public int getLugarDisponible() { // Método para obtener el lugar disponible
+        return lugarDisponible;
+    }
+
+    public int getPrecio() { // Método para obtener el precio
+        return precio;
+    }
+
+    public int numAl() {
         Random r = new Random();
-        int NumAl = r.nextInt(15000)+1;
-        return NumAl;
+        int numAl = r.nextInt(15000) + 1;
+        return numAl;
+    }
+
+    public void venderBoletos(int cantidad) { // Método para vender boletos
+        if (cantidad > 0 && cantidad <= lugarDisponible) {
+            lugarDisponible -= cantidad;
+        } else {
+            System.out.println("Cantidad inválida de boletos para vender.");
+        }
     }
 }
+

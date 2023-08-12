@@ -1,29 +1,35 @@
 //Atributos de la clase comprador
-class comprador{
+class Comprador {
     private String nombre;
     private String email;
     private int lugarDisponible;
-    private int precio;
+    private int presupuesto;
 
-//Constructor de la clase comprador
-    public comprador(String nombre, String email, int lugarDisponible, int precio){
+    public Comprador(String nombre, String email, int lugarDisponible, int presupuesto) {
         this.nombre = nombre;
         this.email = email;
         this.lugarDisponible = lugarDisponible;
-        this.precio = precio;
+        this.presupuesto = presupuesto;
     }
 
-//Getters de la clase comprador
-    public String getNombre(){
+    public String getNombre() {
         return nombre;
     }
-    public String getEmail(){
+
+    public String getEmail() {
         return email;
     }
-    public int getLugarDisponible(){
+
+    public int getLugarDisponible() {
         return lugarDisponible;
     }
-    public int getPrecio(){
-        return precio;
+
+    public int getPresupuesto() {
+        return presupuesto;
+    }
+
+    public void comprarBoletos(int cantidad, int costoTotal) {
+        lugarDisponible -= cantidad;
+        presupuesto -= costoTotal;
     }
 }
