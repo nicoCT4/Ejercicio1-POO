@@ -22,13 +22,15 @@ public class ErasTour {
         localidadMejorLocalidad.setPrecio(1000);
 
         while (true) {
+            System.out.println("--------------------------------------------------");
             System.out.println("Bienvenido a Eras Tour");
-            System.out.println("1. Nuevo comprador");
-            System.out.println("2. Nueva solicitud de boletos");
+            System.out.println("1. Registrarse");
+            System.out.println("2. Comprar boletos");
             System.out.println("3. Consultar disponibilidad total");
             System.out.println("4. Consultar disponibilidad individual");
             System.out.println("5. Reporte de caja");
             System.out.println("6. Salir");
+            System.out.println("--------------------------------------------------");
             System.out.print("Ingrese la opción: ");
             int opcion = sc.nextInt();
 
@@ -51,11 +53,11 @@ public class ErasTour {
                     } else {
                         int totalBoletos = 60; // Total de boletos a vender
                         int boletosVendidos = 0;
+                        int a = new Random().nextInt(15000) + 1; // Generamos a
+                        int b = new Random().nextInt(15000) + 1; // Generamos b
                 
                         while (boletosVendidos < totalBoletos) {
                             int ticket = new Random().nextInt(15000) + 1;
-                            int a = new Random().nextInt(15000) + 1;
-                            int b = new Random().nextInt(15000) + 1;
                 
                             if (ticket >= Math.min(a, b) && ticket <= Math.max(a, b)) {
                                 Localidad localidadSeleccionada = null;
@@ -89,12 +91,16 @@ public class ErasTour {
                                 }
                             } else {
                                 System.out.println("El ticket no es apto para comprar boletos.");
+                                break;
                             }
                         }
                 
                         System.out.println("Se han vendido " + boletosVendidos + " boletos en total.");
                     }
                     break;
+                
+                
+                
                 
                 // Resto de las opciones del menú
 
