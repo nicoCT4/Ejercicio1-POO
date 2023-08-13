@@ -47,19 +47,26 @@ public class ErasTour {
                     compradorActual = new Comprador(nombre, email, cantidadBoletos, presupuesto);
                     break;
 
-                    case 2:
+                case 2:
                     if (compradorActual == null) {
                         System.out.println("Debe crear un nuevo comprador antes de solicitar boletos.");
-                    } else {
-                        int totalBoletos = 60; // Total de boletos a vender
+                    } 
+                    else {
                         int boletosVendidos = 0;
-                        int a = new Random().nextInt(15000) + 1; // Generamos a
-                        int b = new Random().nextInt(15000) + 1; // Generamos b
-                
-                        while (boletosVendidos < totalBoletos) {
-                            int ticket = new Random().nextInt(15000) + 1;
-                
-                            if (ticket >= Math.min(a, b) && ticket <= Math.max(a, b)) {
+                        int totalBoletos= 60;
+                        boolean boletosAptos = true; 
+                        int a = new Random().nextInt(14999) + 1; // Generamos a
+                        int b = new Random().nextInt(14999) + 1; // Generamos b
+
+                        while (boletosVendidos < totalBoletos && boletosAptos) {
+                            int ticket = new Random().nextInt(14999) + 1;
+
+                            System.out.println("valor de a " + a);
+                            System.out.println("valor de b " + b);
+                            System.out.println("valor de ticket " + ticket);
+
+                            if (ticket >= a && ticket <= b || ticket >= b && ticket <= a) {
+                                System.out.println("El ticket es apto para comprar boletos.");
                                 Localidad localidadSeleccionada = null;
                                 int numeroLocalidad = new Random().nextInt(3);
                                 if (numeroLocalidad == 0) {
@@ -69,19 +76,19 @@ public class ErasTour {
                                 } else if (numeroLocalidad == 2) {
                                     localidadSeleccionada = localidadMejorLocalidad;
                                 }
-                
+
                                 if (localidadSeleccionada.getLugarDisponible() > 0) {
                                     int cantidadBoletosDeseados = 1;
-                
+
                                     if (cantidadBoletosDeseados <= localidadSeleccionada.getLugarDisponible()) {
                                         int costoTotal = cantidadBoletosDeseados * localidadSeleccionada.getPrecio();
                                         compradorActual.comprarBoletos(cantidadBoletosDeseados, costoTotal);
                                         localidadSeleccionada.venderBoletos(cantidadBoletosDeseados);
-                
+
                                         System.out.println("Boletos vendidos con éxito.");
                                         System.out.println("Cantidad de boletos vendidos: " + cantidadBoletosDeseados);
                                         System.out.println("Total a pagar: $" + costoTotal);
-                
+
                                         boletosVendidos++;
                                     } else {
                                         System.out.println("No hay suficientes boletos disponibles en la localidad seleccionada.");
@@ -91,18 +98,49 @@ public class ErasTour {
                                 }
                             } else {
                                 System.out.println("El ticket no es apto para comprar boletos.");
-                                break;
+                                boletosAptos = false; // Establecemos la bandera en falso
                             }
                         }
-                
-                        System.out.println("Se han vendido " + boletosVendidos + " boletos en total.");
+
+                        if (boletosAptos) {
+                            System.out.println("Se han vendido " + boletosVendidos + " boletos en total.");
+                        } else {
+                            System.out.println("No se pudieron vender boletos.");
+                        }
                     }
                     break;
-                
-                
-                
-                
-                // Resto de las opciones del menú
+                case 3:
+                    System.out.println("Disponibilidad total de boletos:");
+                    System.out.println("Localidad 1: " + localidadAlejada.getLugarDisponible());
+                    System.out.println("Localidad 5: " + localidadMejorVista.getLugarDisponible());
+                    System.out.println("Localidad 10: " + localidadMejorLocalidad.getLugarDisponible());
+                    break;
+                case 4:
+                    System.out.println("Ingrese el número de localidad que desea consultar:");
+                    int numeroLocalidad = sc.nextInt();
+                    Localidad localidadSeleccionada = null;
+                    if (numeroLocalidad == 1) {
+                        localidadSeleccionada = localidadAlejada;
+                    } else if (numeroLocalidad == 5) {
+                        localidadSeleccionada = localidadMejorVista;
+                    } else if (numeroLocalidad == 10) {
+                        localidadSeleccionada = localidadMejorLocalidad;
+                    }
+
+                    if (localidadSeleccionada != null) {
+                        System.out.println("Disponibilidad de boletos en la localidad " + numeroLocalidad + ": " + localidadSeleccionada.getLugarDisponible());
+                    } else {
+                        System.out.println("La localidad ingresada no existe.");
+                    }
+                    break;
+                case 5:
+                    int totalVentas = 0;
+                    totalVentas += localidadAlejada.getPrecio() * (60 - localidadAlejada.getLugarDisponible());
+                    totalVentas += localidadMejorVista.getPrecio() * (60 - localidadMejorVista.getLugarDisponible());
+                    totalVentas += localidadMejorLocalidad.getPrecio() * (60 - localidadMejorLocalidad.getLugarDisponible());
+                    System.out.println("Reporte de caja:");
+                    System.out.println("Total de ventas: $" + totalVentas);
+                    break;
 
                 case 6:
                     System.out.println("Gracias por usar Eras Tour. ¡Hasta pronto!");

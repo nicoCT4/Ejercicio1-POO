@@ -1,4 +1,3 @@
-import java.util.Random;
 
 class Localidad {
     private int ticketNo;
@@ -9,8 +8,7 @@ class Localidad {
 
     public Localidad(int TicketNo) {
         this.ticketNo = TicketNo;
-        this.a = numAl();
-        this.b = numAl();
+
     }
     public void setPrecio(int precio) {
         this.precio = precio;
@@ -34,12 +32,6 @@ class Localidad {
 
     public int getPrecio() { // Método para obtener el precio
         return precio;
-    }
-
-    public int numAl() {
-        Random r = new Random();
-        int numAl = r.nextInt(15000) + 1;
-        return numAl;
     }
 
     public void venderBoletos(int cantidad) { // Método para vender boletos
