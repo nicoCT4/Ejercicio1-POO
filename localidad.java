@@ -6,8 +6,9 @@ class Localidad {
     private int lugarDisponible; // Agregamos lugarDisponible y precio
     private int precio;
 
-    public Localidad(int TicketNo) {
+    public Localidad(int TicketNo, int lugarDisponible) {
         this.ticketNo = TicketNo;
+        this.lugarDisponible = 20;
 
     }
     public void setPrecio(int precio) {
